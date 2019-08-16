@@ -6,14 +6,14 @@
 
 ## <TL;DR>
 
-    One solution per one repo. One project for a task and one for tests. If needed, the project can have multiple tasks. Repos must be here: https://github.com/CommunityHiQ
-    Do not name class, task, and namespace the same!
-    Remember to do XML documentation and READ.md documentation.
-    The output of the task is one class, the input is one or two class(es) (eg. input and options). Remember to add "cancellationToken".
-    Good examples: https://github.com/CommunityHiQ/Frends.Community.Web/tree/FCOM-106_DownloadFileTask and https://github.com/CommunityHiQ/FRENDS.Community.Files/tree/Community.Files
-    If it is more valuable that the output class is JToken, just create it so. The same with the methods .ToXML() or .ToJSON().
-    Frends.Tasks.Attributes are deprecating.
-    In the future in VSTS only local unit tests are driven so do not do tests that requires external resources. While coding it is good to have comprehensive tests, but in VSTS you can take those off with NuNit's Ignore("Reason") command. Do not put passwords to GitHub. If your code can not be tested locally in any way, the test can be disabled in VSTS and then you don't have to ignore all test separately in the code.
+One solution per one repo. One project for a task and one for tests. If needed, the project can have multiple tasks. Repos must be here: https://github.com/CommunityHiQ
+Do not name class, task, and namespace the same!
+Remember to do XML documentation and READ.md documentation.
+The output of the task is one class, the input is one or two class(es) (eg. input and options). Remember to add "cancellationToken".
+Good examples: https://github.com/CommunityHiQ/Frends.Community.Web/tree/FCOM-106_DownloadFileTask and https://github.com/CommunityHiQ/FRENDS.Community.Files/tree/Community.Files
+If it is more valuable that the output class is JToken, just create it so. The same with the methods .ToXML() or .ToJSON().
+Frends.Tasks.Attributes are deprecating.
+In the future in VSTS only local unit tests are driven so do not do tests that requires external resources. While coding it is good to have comprehensive tests, but in VSTS you can take those off with NuNit's Ignore("Reason") command. Do not put passwords to GitHub. If your code can not be tested locally in any way, the test can be disabled in VSTS and then you don't have to ignore all test separately in the code.
 
 ## Version control, naming, and structures
 
@@ -24,10 +24,10 @@ Input and output classes of the task are located to their own files.
 
 ## Pattern for naming:
 
-    Task name = What the task does? (eg. DownloadFile OR CreateArchive) 
-    Class = Something convenient (this doesn't show in FRENDS). If you cannot come up with another name(?) write "task name" + "tasks". (eg. WebFilesTask OR ZipTask)
-    Namespace = unique and descriptive. (Frends.Community.Task is okay, if you're not in a creative mood) (eg. Frends.Community.DownloadWebFiles OR Frends.Community.Zip)
-    Repo's name = <Namespace>.<taskname> (eg. Frends.Community.Zip.CreateArchive OR Frends.Community.DownloadWebFiles.DownloadFile)
+Task name = What the task does? (eg. DownloadFile OR CreateArchive) 
+Class = Something convenient (this doesn't show in FRENDS). If you cannot come up with another name(?) write "task name" + "tasks". (eg. WebFilesTask OR ZipTask)
+Namespace = unique and descriptive. (Frends.Community.Task is okay, if you're not in a creative mood) (eg. Frends.Community.DownloadWebFiles OR Frends.Community.Zip)
+Repo's name = <Namespace>.<taskname> (eg. Frends.Community.Zip.CreateArchive OR Frends.Community.DownloadWebFiles.DownloadFile)
 
 
 More info: https://blogs.msdn.microsoft.com/ericlippert/2010/03/09/do-not-name-a-class-the-same-as-its-namespace-part-one/ (Google for parts 2-4).
@@ -35,47 +35,42 @@ More info: https://blogs.msdn.microsoft.com/ericlippert/2010/03/09/do-not-name-a
 
 ## Parameters
 
-    Return always strongly typed class that includes own field for every value.
-    Incoming parameters are always divided into the next groups, but all groups are not always needed. Groups must be in this order "input", "output":
-         Input: all data that comes in and the parameters that are closely related to data, such as "connection strings"
-        Options: Configurations such as timeout value.
+Return always strongly typed class that includes own field for every value.
+Incoming parameters are always divided into the next groups, but all groups are not always needed. Groups must be in this order "input", "output":
+	 Input: all data that comes in and the parameters that are closely related to data, such as "connection strings"
+	Options: Configurations such as timeout value.
 
-    All the parameters need metadata:
+All the parameters need metadata:
 
-        [DisplayName] – Name that is shown in the UI
+- [DisplayName] – Name that is shown in the UI
 
-        [DefaultValue] – Default value to a variable, this can be also "null" or "String.Empty"
+- [DefaultValue] – Default value to a variable, this can be also "null" or "String.Empty"
 
-        XML documentation notations:
+- XML documentation notations:
 
-            summary – a description about parameters or task in a general level
+    - summary – a description about parameters or task in a general level
 
-            remarks – optional information about the functionalities of the task or its parameters
-
-            returns – a description of an object returned by the task. It is good to list that this can be used in the next tasks x.x.
-
-            example – example of the use of the task and parameter values
+    - returns – a description of an object returned by the task. It is good to list that this can be used in the next tasks x.x.
 
 ## Unit tests
 
-    Done to the project FRENDS.Tests
-    For each task as a minimum requirement:
-        1 happy testcase
-    Unit tests are done with Nunit framework so they work on the buildserver
-    If unit tests are using files, do a separate folder for them
-    Remember to add the possible files to VS project so those will be copied while the project is compiled
+Done to the project FRENDS.Tests
+For each task a minimum requirement is one happy testcase
+Unit tests are done with Nunit framework so they work on the buildserver
+If unit tests are using files, do a separate folder for them
+Remember to add the possible files to VS project so those will be copied while the project is compiled
 
 ## Documentation
 
-    Documentation to README.md file, GitHub shows it nicely
-    Structure of the documentation:
-        General description of what the task does
-        Input - description
-        Options – description
-        \#result – description
-        An example scenario of the use within the solution, an example of the configuration
-        If used with a specific system, also an instruction on how to use with that system
-    Do not use XML documentation classes unless it has a real extra value. XML documentation is for properties and methods. A user or developer cannot utilize "Input class" typed summary (if you don't like the error message "missing XML documentation" just add '#pragma warning disable 1591' under using sentences).
+Documentation to README.md file, GitHub shows it nicely
+Structure of the documentation:
+    - General description of what the task does
+    - Input - description
+    - Options – description
+    - \#result – description
+    - An example scenario of the use within the solution, an example of the configuration
+    - If used with a specific system, also an instruction on how to use with that system
+Do not use XML documentation classes unless it has a real extra value. XML documentation is for properties and methods. A user or developer cannot utilize "Input class" typed summary (if you don't like the error message "missing XML documentation" just add '#pragma warning disable 1591' under using sentences).
 
 
 
@@ -85,39 +80,24 @@ The review is mandatory:
 
  
 
-    Option 1: Ask from the reviewer separately when you've done pull request since the reviewer cannot know about the pull request (unless Review field is spesified)
-        Take Skype, Flowdock to make sure you both know about the changes
+    - Option 1: Ask from the reviewer separately when you've done pull request since the reviewer cannot know about the pull request (unless Review field is spesified) Take Skype, Flowdock to make sure you both know about the changes
 
-    Option 2: Move FCOM ticket to the reviewer in Jira.
+    - Option 2: Move FCOM ticket to the reviewer in Jira.
 
 
 ## Review corresponds
 
-
-Nimbus:
 [hiqesalep](https://github.com/hiqesalep)
-
-Fenix
 [KRuusuv](https://github.com/KRuusuv)
- 
-Hopea:
 [VilleVuorela](https://github.com/VilleVuorela)
- 
-Energia:
 [juralaakkonen](https://github.com/juralaakkonen)
 [RedBraces](https://github.com/RedBraces)
-
-
 [OssiGalkin](https://github.com/OssiGalkin)
-
-
 
 ## Nuget-feed and auto build
 
 [OssiGalkin](https://github.com/OssiGalkin)
 support@frends.com
-
-
 
 ## Review check list
 Goals
