@@ -21,7 +21,7 @@
 	
 - If it is more valuable that the output class is JToken, just create it so. The same with the methods .ToXML() or .ToJSON().
 	
-- Frends.Tasks.Attributes are deprecating.
+- Frends.Tasks.Attributes are deprecated, don't use them.
 	
 - In the future in VSTS only local unit tests are driven so do not do tests that requires external resources. While coding it is good to have comprehensive tests, but in VSTS you can take those off with NuNit's Ignore("Reason") command. Do not put passwords to GitHub. If your code can not be tested locally in any way, the test can be disabled in VSTS and then you don't have to ignore all test separately in the code.
 
@@ -33,19 +33,24 @@ Input and output classes of the task are located to their own files.
 
 ## Pattern for naming:
 
-Task name = What the task does? (eg. DownloadFile OR CreateArchive) 
-Class = Something convenient (this doesn't show in FRENDS). If you cannot come up with another name(?) write "task name" + "tasks". (eg. WebFilesTask OR ZipTask)
-Namespace = unique and descriptive. (Frends.Community.Task is okay, if you're not in a creative mood) (eg. Frends.Community.DownloadWebFiles OR Frends.Community.Zip)
-Repo's name = <Namespace>.<taskname> (eg. Frends.Community.Zip.CreateArchive OR Frends.Community.DownloadWebFiles.DownloadFile)
+Task name = What the task does? (eg. DownloadFile OR CreateZipArchive) 
 
-More info: https://blogs.msdn.microsoft.com/ericlippert/2010/03/09/do-not-name-a-class-the-same-as-its-namespace-part-one/ (Google for parts 2-4).
+Namespace = unique and descriptive. Where task relates? Use Frends.Community as prefix (eg. Frends.Community.DownloadWebFiles OR Frends.Community.Zip)
+
+Class = Something convenient (this doesn't show in FRENDS). If you cannot come up with another name write "task name" or last part of namespace + "tasks" or "operations. (eg. DownloadFilesTasks or ZipTasks)
+
+Repo's name = Same as namespace (othervice there will be problems in CI).
+
+Do not name class, task, and namespace the same! And use plurals in class and namespace nameswhen ever possible. More info: https://blogs.msdn.microsoft.com/ericlippert/2010/03/09/do-not-name-a-class-the-same-as-its-namespace-part-one/ (Google for parts 2-4).
 
 ## Parameters
 
 Return always strongly typed class that includes own field for every value.
 
 Incoming parameters are always divided into the next groups, but all groups are not always needed. Groups must be in this order "input", "output":
+
 - Input: all data that comes in and the parameters that are closely related to data, such as "connection strings"
+
 - Options: Configurations such as timeout value.
 
 All parameters need metadata:
@@ -63,9 +68,13 @@ All parameters need metadata:
 ## Unit tests
 
 - Done to the project FRENDS.Tests
+
 - For each task a minimum requirement is one happy testcase
+
 - Unit tests are done with Nunit framework so they work on the buildserver
+
 - If unit tests are using files, do a separate folder for them
+
 - Remember to add the possible files to VS project so those will be copied while the project is compiled
 
 ## Documentation
@@ -94,15 +103,21 @@ The review is mandatory.Ask from the reviewer separately when you've done pull r
 ## Review corresponds
 
 [hiqesalep](https://github.com/hiqesalep)
+
 [KRuusuv](https://github.com/KRuusuv)
+
 [VilleVuorela](https://github.com/VilleVuorela)
+
 [juralaakkonen](https://github.com/juralaakkonen)
+
 [RedBraces](https://github.com/RedBraces)
+
 [OssiGalkin](https://github.com/OssiGalkin)
 
 ## Nuget-feed and auto build
 
 [OssiGalkin](https://github.com/OssiGalkin)
+
 support@frends.com
 
 ## Review check list
