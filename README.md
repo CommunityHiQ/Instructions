@@ -167,6 +167,52 @@ Billing
 
 Creating common tasks are billable work. Do not write this to internal work, but discuss with who gave this task to you.
 
+# Converting FRENDS Community Tasks to .NET Standard or multi-target (.NET Standard 2.0 and Framework)
+
+## Why?
+
+The new FRENDS Agent which is developed with .NET Core and can run on Linux machines that cannot execute Tasks developed for .NET Framework.
+
+## Why multi-target? Why not just use .NET Standard?
+
+To ensure compatibility with older FRENDS installations, without .NET Standard support, use .NET 4.6.1 for maximum compatibility.
+
+## why not multi-target? Why just .NET Standard?
+
+A bit less hassle with differences in using libraries.
+
+## What needs to be done?
+
+To avoid multiple hiccups, you should also convert your project to use new standards and tools. I.e. you should use new [(SDK-style)](https://docs.microsoft.com/en-us/nuget/resources/check-project-format) project format, [PackageReferences](https://docs.microsoft.com/en-us/nuget/consume-packages/package-references-in-project-files)
+6. [Update](https://docs.microsoft.com/en-us/nuget/reference/msbuild-targets#pack-target) instead of .nuspec file, and use dotnet tools instead of nuget.exe and old MSBuild.
+
+1. Check if the used libraries support .NET Standard.
+2. Check if the Task uses Windows-specific functionality, such as impersonation.
+3. Update the project .csproj file to the new format. The easiest way to accomplish this is to create a new project in Visual Studio targeting .NET Standard and re-add files from the old project. You can use [task template](TODO) to easily create a new project. Keep the project/assembly name the same as before so the Task signature stays the same and is handled as an update instead of a new Task
+4. Setup multi-target by changing the project's .csprojs, if you want to use multi-targeting.
+    <pre>&lt;TargetFramework&gt;netstandard2.0&lt;/TargetFramework&gt;</pre>
+    to
+    <pre>&lt;TargetFrameworks&gt;netstandard2.0;net461&lt;/TargetFrameworks&gt;</pre>
+5. Re-add NuGet package references. Now they use new PackageReferences NuGet package information to the .csproj and delete the .nuspec file.
+7. If you use muli-targeting use preprocessor directives to add target specific functionality, e.g.
+    <pre>&#35;if NET461
+    FrameworkOrWindowsSpecificClass.DoSomething();
+    &#35;else
+    throw new Exception("Only supported on .NET Framework");
+    &#35;endif</pre>
+8. If necessary you may have target specific references using conditional ItemGroups, e.g.
+    <pre>&lt;ItemGroup Condition="'$(TargetFramework)'=='net471'"&gt;
+        &lt;Reference Include="System.Net.Http" /&gt;
+    &lt;/ItemGroup&gt;</pre>
+9. If using target specific functionality, you should also convert test projects to multi target. Note that unit test can not be run if they target .NET Standard, so they need to targe .NET Core or Framework.
+
+Example conversions, using multitargeting:
+
+* [Frends.Web](https://github.com/FrendsPlatform/Frends.Web/pull/25/files)
+* [Frends.File](https://github.com/FrendsPlatform/Frends.File/pull/10/files)
+* [Frends.Json](https://github.com/FrendsPlatform/Frends.Json/pull/11/files)
+
+
 
 -----------------
 
