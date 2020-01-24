@@ -249,37 +249,44 @@ Example conversions, using multitargeting:
 -----------------
 
 Still only in Finnish
-Ohjeet eri tilanteisiin
 
-    Triviaali bugi (Virheen korjaus yms.) korjaukset tehdään olemassa olevaan versioon taskista.
-        Ota oma branch commoneista
-        Korjaa bugi
-        Perustestien tekeminen Taskeille (yksikkötestit!).
-        Kirjoita lyhyt kuvaus, eli mitä muutit committiin ja mahdollisesti dokumentaatioon. Esim: FRENDS.File.Write: New Encoding options added to task.
-        Viimeistään tässä vaiheessa käännä, aja testit ja nugetoi taski, ja lisää taski frendsiex:iin tai frendsvnext:iin.
-        Rewiev: tee pull request bitbucketissa, töki tiimisi rewiev vastaavaa katselmoimaan tekeleesi ja kerro hänelle mille taskille tunnit voi kirjata.
-        Mikäli on korjattavaa, niin korjaa ne.
-        Tarkista että taski täyttää katselmoinnissa katsottavat asiat.
-        Kirjoita lyhyt sähköposti Risto-Matille jossa: Branch nimi mistä olen ottanut Kehitys-branchin. Branch-nimi johon teit muutoksen. Mihin asiakkuuteen teit tämän korjauksen/muutoksen. Pyydät päivittämään feedit.
-    Breaking Change, eli taskin rikkova muutos (käytännössä parametrit, yms muuttuu):
-        Bugi korjauksen yhteydessä erota task, esim. FRENDS.File.Write omaan Visual Studio Projektiin ja Nugettipakettiin (mutta käytä samaa ratkaisua (solution, sln-tiedosto).
-        Nimeä se fiksusti, esim FRENDS.File.Write.V2. Älä välitä vaikka vanhassa projektissa on muitakin taskeja, niitä ei vielä ole ehditty forkkaamaan.
-        Muista kopioida myös yksikkötestit ja laittaa ne testaamaan uutta taskia.
-        Uuden komponenttiversion Release notes luominen & tiedottaminen. Lyhyt lauseen pari kuvaus, sekä selitys parametreistä ja outputista dokumentaatioon
-        Tarkista että taski täyttää katselmoinnissa katsottavat asiat.
-        Noudata muuten ylempänä annettuja peer review, pull request, ilmoitus ja yksikkötestaus ohjeita.
-    Uusi taski
+# Internal procedure in HiQ when our customer reports bug to us and want's it to be fixed.
 
-        Uudet Taskit lisätään samalla kaavalla Common version hallintaan, kuin nyt sovittu taskien purkaminen omiin Visual Studio projekteihin, noudattaen yllä kuvattuja periaatteita. Muista ottaa uusi branchi ja tehdä yksikkötestit ja dokumentaatio.
+## Trivial bug
 
-    apuprojektin tai apufunktionpäivitys
+- Make new branch 
+- Fix the bug
+- Make test to ensure that bug is fixed. Run all tests.
+- Write description abou change in commit messages and to the ticket. And possible to the releasenotes and documentation. E.g. `FRENDS.File.Write: New Encoding options added to task.`
+- Pack the task and test it also in FRENDS.
+- Make pull request. Ad agree with reviewer that he/she will do the review. Don't just leavethe PR open in github.
+- Fix things that raises in review.
 
-        Päivitä apu projekti Breaking Change ohjeiden mukaan ja sitä käyttävä taskit bugi korjaus ohjeiden mukaan.
+## Breaking Change
+eli taskin rikkova muutos (käytännössä parametrit, yms muuttuu):
+Bugi korjauksen yhteydessä erota task, esim. FRENDS.File.Write omaan Visual Studio Projektiin ja Nugettipakettiin (mutta käytä samaa ratkaisua (solution, sln-tiedosto).
+Nimeä se fiksusti, esim FRENDS.File.Write.V2. Älä välitä vaikka vanhassa projektissa on muitakin taskeja, niitä ei vielä ole ehditty forkkaamaan.
+Muista kopioida myös yksikkötestit ja laittaa ne testaamaan uutta taskia.
+Uuden komponenttiversion Release notes luominen & tiedottaminen. Lyhyt lauseen pari kuvaus, sekä selitys parametreistä ja outputista dokumentaatioon
+Tarkista että taski täyttää katselmoinnissa katsottavat asiat.
+Noudata muuten ylempänä annettuja peer review, pull request, ilmoitus ja yksikkötestaus ohjeita.
 
-    Tausta kirjaston päivitys
 
-        Mikäli olet 100 % varma, että tausta kirjastoa ei käytetä missään muussa taskissa, korjaa taski bugi korjaus ohjeiden mukaan. Muussa tapauksessa kysy apua review vastaavilta ja tai r&d:ltä. Ongelmia syntyy jos samassa prosessissa olevat taskit yrittävät käyttää eri versioita samasta dll:stä.
-    Asiakkaalta löytyy hyvä taski, eli mitä jos asiakkaalla on super hyvä taski, mutta sitä ei ole tarpeen muokata, mutta siitä voisi olla hyötyä commoneissa. Eli siirtoa ei voida laskuttaa, taski pitäisi saada commoneihin.
+## Uusi taski
+
+Uudet Taskit lisätään samalla kaavalla Common version hallintaan, kuin nyt sovittu taskien purkaminen omiin Visual Studio projekteihin, noudattaen yllä kuvattuja periaatteita. Muista ottaa uusi branchi ja tehdä yksikkötestit ja dokumentaatio.
+
+apuprojektin tai apufunktionpäivitys
+
+Päivitä apu projekti Breaking Change ohjeiden mukaan ja sitä käyttävä taskit bugi korjaus ohjeiden mukaan.
+
+Tausta kirjaston päivitys
+
+Mikäli olet 100 % varma, että tausta kirjastoa ei käytetä missään muussa taskissa, korjaa taski bugi korjaus ohjeiden mukaan. Muussa tapauksessa kysy apua review vastaavilta ja tai r&d:ltä. Ongelmia syntyy jos samassa prosessissa olevat taskit yrittävät käyttää eri versioita samasta dll:stä.
+	
+	
+## Asiakkaalta löytyy hyvä taski,
+eli mitä jos asiakkaalla on super hyvä taski, mutta sitä ei ole tarpeen muokata, mutta siitä voisi olla hyötyä commoneissa. Eli siirtoa ei voida laskuttaa, taski pitäisi saada commoneihin.
         Tee uusi branch commoneista kopioi koodi asiakkaan reposta, lisää koodi commoneihin ja kirjoita pikana committiin mistä on kyse. Älä säädä mitään turhaa visual studion projektien tai ratakisujen (solution) kanssa . Tähän pitäisi mennä aikaa 5 min, joten sen voi leipoa vaikka kuuluisten kiky tuntien sisään. Jos taskista on oikeasti hyötyä jollekin muulle, se löytyy commonien branchistä ja sitten kun joku toinen asiakas haluaa taskin itselleen kaikki tarvittavat muutokset taskiin ja dokumentointi yms. voidaan laskuttaa.
 
 
@@ -293,7 +300,7 @@ Versiointi jakautuu 3 numeroon
     
 Sellaisia päivityksiä jotka hävittävät paramaterit FRENDSin editorissa ei pitäisi tehdä, joten sille ei ole numerointia.
 
-FAQ:
+## FAQ:
 Miksi pull requestin hyväksyjä nostaa keskimmäistä numeroa? V: Koska tällöin PR:ää voi päivittää vielä jälkikäteen.
 Mitä jos devaaja päivittääkin keskimmäitä numeroa? V: Ei se niin vakavaa ole.
 Miksi community taskeissa ei käytetä puhdasta Semantic Versioning https://semver.org/ käytäntöä V: Käytännössä community taskeja devataan siten että niistä tehdään useita nugettipaketteja FRENDSiin jolloin viimeistä numeroa joutuu päivittämään mahdollisesti useita kertoja. Tämän vuoksi on kätevämpää päivittää keskimmäistä numeroa myös bugikorjauksien yhteydessä, sillä tällöin kukaan ei ihmettele miksi versiosta 1.3.4 siirrytään versioon 1.3.17, lisäksi päivittämällä keskimmäistä numeroa FRENDS jossa kehitystyö on tehty hyväksyy uudne paketin feedistä.
