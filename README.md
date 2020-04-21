@@ -18,6 +18,7 @@
   * [Review corresponds](#review-corresponds)
   * [Nuget-feed and auto build](#nuget-feed-and-auto-build)
   * [Review check list](#review-check-list)
+  * [Billing](#billing)
 - [Converting FRENDS Community Tasks to .NET Standard or multi-target (.NET Standard 2.0 and Framework)](#converting-frends-community-tasks-to-net-standard-or-multi-target-net-standard-20-and-framework)
   * [Why?](#why)
   * [Why multi-target? Why not just use .NET Standard?](#why-multi-target-why-not-just-use-net-standard)
@@ -133,9 +134,9 @@ The review is mandatory.Ask from the reviewer separately when you've done pull r
 
 ## Nuget-feed and auto build
 
-[OssiGalkin](https://github.com/OssiGalkin)
+Task are added to nuget feed frends-community on myget.org. Best way to browse it is via gallery: https://www.myget.org/gallery/frends-community
 
-support@frends.com
+GitHub Actions are used to build task on every push and then to make relese build when code is merged to master. When doing a new task it is better to use task template and then manually edit json files under .github/workflows/ if you need to edit build or add passwords etc. to unit test.
 
 ## Review check list
 Goals
@@ -195,7 +196,7 @@ FRENDS check list
         Yes: Data structure that has a status code and a message separated
 
  
-Billing
+# Billing
 
 Creating common tasks are billable work. Do not write this to internal work, but discuss with who gave this task to you.
 
