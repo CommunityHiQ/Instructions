@@ -307,3 +307,13 @@ Mitä jos devaaja päivittääkin keskimmäitä numeroa? V: Ei se niin vakavaa o
 Miksi community taskeissa ei käytetä puhdasta Semantic Versioning https://semver.org/ käytäntöä V: Käytännössä community taskeja devataan siten että niistä tehdään useita nugettipaketteja FRENDSiin jolloin viimeistä numeroa joutuu päivittämään mahdollisesti useita kertoja. Tämän vuoksi on kätevämpää päivittää keskimmäistä numeroa myös bugikorjauksien yhteydessä, sillä tällöin kukaan ei ihmettele miksi versiosta 1.3.4 siirrytään versioon 1.3.17, lisäksi päivittämällä keskimmäistä numeroa FRENDS jossa kehitystyö on tehty hyväksyy uudne paketin feedistä.
 
 
+##  Frends.Tasks.Attributes referenssin poisto 
+
+- Poista nuget 'Frends.Tasks.Attributes' projektista ja dependency .nuspec filestä,
+- Lisää System.ComponentModel.DataAnnotations referenssi
+- Korvaa attribuutit koodista
+```
+[DefaultDisplayType(DisplayType.Text)]    →      [DisplayFormat(DataFormatString = "Text")]
+[ConditionalDisplay(nameof(Method), Method.POST)]    -->  [UIHint(nameof(Method),"", Method.POST)]
+[CustomDisplay(DisplayOption.Tab)]    →    [PropertyTab]
+```
