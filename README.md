@@ -95,6 +95,16 @@ All parameters need metadata:
 
 - Remember to add the possible files to VS project so those will be copied while the project is compiled
 
+You can read environment variables in C# with:
+
+`Environment.GetEnvironmentVariable("EnvName", EnvironmentVariableTarget.User);`
+
+You can set environment variables locally in powershell by
+
+`[System.Environment]::SetEnvironmentVariable('HiQAzureADTestPassword','#',[System.EnvironmentVariableTarget]::User)`
+
+In GitHub Action environment variables are added via Secrets (under Settings).
+
 ## Documentation
 
 Documentation to README.md file, GitHub shows it nicely
