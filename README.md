@@ -85,7 +85,7 @@ All parameters need metadata:
 
 ## Unit tests
 
-- Done to the project FRENDS.Tests
+- Done to the project <Namespace>.Tests. Forexample Frends.Community.Zip has it test under Frends.Community.Zip.Tests
 
 - For each task a minimum requirement is one happy testcase
 
@@ -97,13 +97,15 @@ All parameters need metadata:
 
 You can read environment variables in C# with:
 
-`Environment.GetEnvironmentVariable("EnvName", EnvironmentVariableTarget.User);`
+`Environment.GetEnvironmentVariable("EXAMPLE_ENVIROMENT_VARIABLE")`
 
 You can set environment variables locally in powershell by
 
-`[System.Environment]::SetEnvironmentVariable('HiQAzureADTestPassword','#',[System.EnvironmentVariableTarget]::User)`
+`[System.Environment]::SetEnvironmentVariable('EXAMPLE_ENVIROMENT_VARIABLE','foobar')`
 
 In GitHub Action environment variables are added via Secrets (under Settings).
+
+**It is important to use only capital letters in  environment variable/Secret names to make them work everywhere.**
 
 ## Documentation
 
@@ -146,7 +148,7 @@ The review is mandatory.Ask from the reviewer separately when you've done pull r
 
 Task are added to nuget feed frends-community on myget.org. Best way to browse it is via gallery: https://www.myget.org/gallery/frends-community
 
-GitHub Actions are used to build task on every push and then to make relese build when code is merged to master. When doing a new task it is better to use task template and then manually edit json files under .github/workflows/ if you need to edit build or add passwords etc. to unit test.
+GitHub Actions are used to build task on every push and then to make relese build when code is merged to master. When doing a new task it is better to use task template and then manually edit json files under .github/workflows to edit build or add passwords etc. to unit test. See section Unit tests to see how passwords etc. should be saved.
 
 ## Review check list
 Goals
