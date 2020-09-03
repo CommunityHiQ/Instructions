@@ -3,10 +3,10 @@
 :construction: :construction: :construction: **DOCUMENT IS STILL ON CONSTRUCTION !!!** :construction: :construction: :construction: 
 
 -----------------
-# Instructions for creating Community tasks
+# Instructions for creating Community Tasks
 
 ## Introduction
-- [Instructions for creating Community tasks](#instructions-for-creating-community-tasks)
+- [Instructions for creating Community Tasks](#instructions-for-creating-community-tasks)
   * [Introduction](#introduction)
   * [<TL;DR>](#tldr)
   * [Version control, naming, and structures](#version-control-naming-and-structures)
@@ -16,24 +16,24 @@
   * [Documentation](#documentation)
   * [Review](#review)
   * [Review corresponds](#review-corresponds)
-  * [Nuget-feed and auto build](#nuget-feed-and-auto-build)
+  * [NuGet-feed and auto build](#nuget-feed-and-auto-build)
   * [Review check list](#review-check-list)
   * [Billing](#billing)
-- [Converting FRENDS Community Tasks to .NET Standard or multi-target (.NET Standard 2.0 and Framework)](#converting-frends-community-tasks-to-net-standard-or-multi-target-net-standard-20-and-framework)
+- [Converting FRENDS Community Tasks to .NET Standard or multi-target (.NET Standard 2.0 and .NET Framework)](#converting-frends-community-tasks-to-net-standard-or-multi-target-net-standard-20-and-framework)
   * [Why?](#why)
   * [Why multi-target? Why not just use .NET Standard?](#why-multi-target-why-not-just-use-net-standard)
-  * [why not multi-target? Why just .NET Standard?](#why-not-multi-target-why-just-net-standard)
+  * [Why not multi-target? Why just .NET Standard?](#why-not-multi-target-why-just-net-standard)
   * [What needs to be done?](#what-needs-to-be-done)
 
 
 ## <TL;DR>
-- One solution per one repo. One project for a task and one for tests. If needed, the project can have multiple tasks. Repos must be here: https://github.com/CommunityHiQ
+- One solution per one repo. One project for a Task and one for tests. If needed, the project can have multiple Tasks. Repos must be here: https://github.com/CommunityHiQ
 	
-- Do not name class, task, and namespace the same!
+- Do not name class, Task, and namespace the same!
 	
-- Remember to do XML documentation and READ.md documentation.
+- Remember to do XML documentation and README.md documentation.
 	
-- The output of the task is one class, the input is one or two class(es) (eg. input and options). Remember to add "cancellationToken".
+- The output of the Task is one class, the input is one or two class(es) (eg. input and options). Remember to add and use "CancellationToken cancellationToken" so the Task can be cancelled.
 	
 - Good examples: https://github.com/CommunityHiQ/Frends.Community.Web/tree/FCOM-106_DownloadFileTask and https://github.com/CommunityHiQ/FRENDS.Community.Files/tree/Community.Files
 	
@@ -41,78 +41,78 @@
 	
 - Frends.Tasks.Attributes are deprecated, don't use them.
 	
-- In the future in VSTS only local unit tests are driven so do not do tests that requires external resources. While coding it is good to have comprehensive tests, but in VSTS you can take those off with NuNit's Ignore("Reason") command. Do not put passwords to GitHub. If your code can not be tested locally in any way, the test can be disabled in VSTS and then you don't have to ignore all test separately in the code.
+- In the future in VSTS only local unit tests are driven so do not add tests that require external resources, or at least have them ignored by default. While coding it is good to have comprehensive tests, but in VSTS you can take those off with NuNit's Ignore("Reason") command. **Do not put passwords to GitHub.** If your code can not be tested locally in any way, the test can be disabled in VSTS and then you don't have to ignore all test separately in the code.
 
 ## Version control, naming, and structures
 
-Repos can be created here https://github.com/CommunityHiQ. If you cannot create a repo, ask help from one of the reviewers or support@frends.com.
+Repositories can be created here https://github.com/CommunityHiQ. If you cannot create a repo, ask help from one of the reviewers or support@frends.com.
 
-Input and output classes of the task are located to their own files.
+Input and output classes of the Task should be located to their own files.
 
 ## Pattern for naming:
 
-Task name = What the task does? (eg. DownloadFile OR CreateZipArchive) 
+Task name = What does the Task do? (eg. DownloadFile OR CreateZipArchive) 
 
-Namespace = unique and descriptive. Where task relates? Use Frends.Community as prefix (eg. Frends.Community.DownloadWebFiles OR Frends.Community.Zip)
+Namespace = Unique and descriptive. Where task relates? Use Frends.Community as prefix (eg. Frends.Community.DownloadWebFiles OR Frends.Community.Zip)
 
-Class = Something convenient (this doesn't show in FRENDS). If you cannot come up with another name write "task name" or last part of namespace + "tasks" or "operations. (eg. DownloadFilesTasks or ZipTasks)
+Class = Something convenient (this doesn't show in FRENDS, except in the Task listing). If you cannot come up with another name write "Task name" or last part of namespace + "Tasks" or "operations. (eg. DownloadFilesTasks or ZipTasks)
 
-Repo's name = Same as namespace (othervice there will be problems in CI).
+Repository's name = Same as namespace (otherwise there will be problems in CI).
 
-Do not name class, task, and namespace the same! And use plurals in class and namespace nameswhen ever possible. More info: https://blogs.msdn.microsoft.com/ericlippert/2010/03/09/do-not-name-a-class-the-same-as-its-namespace-part-one/ (Google for parts 2-4).
+Do not name the class, Task, and namespace the same! And use plurals in class and namespace names whenever possible. More info: https://blogs.msdn.microsoft.com/ericlippert/2010/03/09/do-not-name-a-class-the-same-as-its-namespace-part-one/ (Google for parts 2-4).
 
 ## Parameters
 
-Return always strongly typed class that includes own field for every value.
+The return value should always be strongly typed class that includes own property/field for every value.
 
-Incoming parameters are always divided into the next groups, but all groups are not always needed. Groups must be in this order "input", "output":
+Incoming parameters should always be divided into the next groups, but all groups are not always needed. Groups must be in this order "input", "output":
 
-- Input: all data that comes in and the parameters that are closely related to data, such as "connection strings"
+- Input: all data that comes in and the parameters that are closely related to data, such as "connection strings" (i.e. the stuff the Task absolutely needs to execute)
 
 - Options: Configurations such as timeout value.
 
 All parameters need metadata:
 
-- [DisplayName] – Name that is shown in the UI
+- [DisplayName] – Name that is shown in the UI, otherwise the name of the Task method is used
 
 - [DefaultValue] – Default value to a variable, this can be also "null" or "String.Empty"
 
 - XML documentation notations:
 
-    - summary – a description about parameters or task in a general level
+    - summary – A description about parameters or Task in a general level
 	
-    - returns – a description of an object returned by the task. It is good to list that this can be used in the next tasks x.x.
+    - returns – A description of an object returned by the Task. It is good to list the properties/fields of the return object so that it can be used in the next Tasks
 
 ## Unit tests
 
-- Done to the project <Namespace>.Tests. Forexample Frends.Community.Zip has it test under Frends.Community.Zip.Tests
+- Done to the project <Namespace>.Tests. For example Frends.Community.Zip has it test under Frends.Community.Zip.Tests
 
-- For each task a minimum requirement is one happy testcase
+- Each Task has must at least one happy testcase
 
-- Unit tests are done with Nunit framework so they work on the buildserver
+- Unit tests are done with NUnit framework so they work on the build server
 
-- If unit tests are using files, do a separate folder for them
+- If unit tests are using files, add a separate folder for them
 
-- Remember to add the possible files to VS project so those will be copied while the project is compiled
+- Remember to add the possible files to the VS test project so those will be copied while the test project is compiled
 
 You can read environment variables in C# with:
 
 `Environment.GetEnvironmentVariable("EXAMPLE_ENVIROMENT_VARIABLE")`
 
-You can set environment variables locally in powershell by
+You can set environment variables locally in PowerShell by
 
 `[System.Environment]::SetEnvironmentVariable('EXAMPLE_ENVIROMENT_VARIABLE','foobar')`
 
-In GitHub Action environment variables are added via Secrets (under Settings).
+In the GitHub Action environment variables are added via Secrets (under Settings).
 
 **It is important to use only capital letters in  environment variable/Secret names to make them work everywhere.**
 
 ## Documentation
 
-Documentation to README.md file, GitHub shows it nicely
+Write the documentation in a README.md file located at the root of the repository so GitHub shows it nicely
 Structure of the documentation:
 
-- General description of what the task does
+- General description of what the Task does
 
 - Input - description
 	
@@ -128,7 +128,7 @@ Do not use XML documentation classes unless it has a real extra value. XML docum
 
 ## Review
 
-The review is mandatory.Ask from the reviewer separately when you've done pull request since the reviewer cannot know about the pull request (unless Review field is spesified). Take Skype, Flowdock to make sure you both know about the changes.
+The review is mandatory. Ask from the reviewer separately when you've created a pull request since the reviewer cannot know about the pull request (unless Reviewer field is specified). Use Skype or Flowdock to make sure you both know about the changes.
 
 ## Review corresponds
 
@@ -140,15 +140,13 @@ The review is mandatory.Ask from the reviewer separately when you've done pull r
 
 [juralaakkonen](https://github.com/juralaakkonen)
 
-[RedBraces](https://github.com/RedBraces)
-
 [OssiGalkin](https://github.com/OssiGalkin)
 
-## Nuget-feed and auto build
+## NuGet-feed and auto build
 
-Task are added to nuget feed frends-community on myget.org. Best way to browse it is via gallery: https://www.myget.org/gallery/frends-community
+Task are added to the frends-community NuGet feed on myget.org. The best way to browse it is via the gallery: https://www.myget.org/gallery/frends-community
 
-GitHub Actions are used to build task on every push and then to make relese build when code is merged to master. When doing a new task it is better to use task template and then manually edit json files under .github/workflows to edit build or add passwords etc. to unit test. See section Unit tests to see how passwords etc. should be saved.
+GitHub Actions are used to build the Task on every push and then to make a release build when code is merged to master. When creating a new Task it is better to use the Task template and then manually edit json files under .github/workflows to edit build or add passwords etc. for unit tests. See the section on Unit tests to see how passwords etc. should be saved.
 
 ## Review check list
 Goals
@@ -162,25 +160,24 @@ Goals
 Code check list
 
     Get the code from version control, pull request
-    Compile without errors and warnings
+    Solution compiles without errors and warnings
     Version number correct
     Unit tests have been done
     Task has been documented
     Parameters are documented
     Structure of the code and modular seams correct
-    The task looks fine in FRENDS
-    Class/task naming is correlating what the code does eg. FRENDS.Common.Files.Operations.MoveFile()
+    The Task is presented correctly in FRENDS
+    Class/Task naming is correlating what the code does eg. FRENDS.Common.Files.Operations.MoveFile()
     Names of the parameters are representative
     The names of the variables are descriptive: tmp <-> googleService
-    Comments in code are fine
-    Scopes of the variables and resources are as minimal as possible. Can you find any unneeded global variables?
+    The code is commented and understandable
+    Scopes of the variables and resources are as minimal as possible. Can you find any unnecessary global variables?
     NULL pointers and getting the resource are always checked
-    Error messages are unique
-    Normally the task is not handling exceptions (do not use try-catch structure), these are delivered to FRENDS so the errors can be shown in FRENDS UI
-    Inner errors can generally return an exception
-    Do not invent something that has been done earlier
-    Time out and cancellationToken are used: task can be canceled
-    Remove all credentials, passwords, certificates, etc. from code
+    Error messages are unique and descriptive: "An error occurred" vs $"Error connecting to server {server}, error: {exception.Message}"
+    Task failures are communicated as exceptions in frends, so it is fine to throw them out from the Task. It is usually good the catch and enrich the Exception with what was happening in the Task at the point of the error and include the original exception as an inner exception: try { Connect(server)} catch (Exception ex) { throw new Exception($"Error while connecting to server {server}, error {ex.Message}", ex); }
+    Do not reinvent something that has been done earlier
+    Timeouts and cancellationToken should be used, especially in loops. This ensures that the Process and Task can be terminated
+    Remove all credentials, passwords, certificates, etc. from the code
     The most general injections have been considered:
         SQL
         CGI parameters
@@ -191,28 +188,28 @@ Code check list
     External resources (SQL, AWS, Google, REST, files etc.)
         Scope of the resources is as minimal as possible
         Do not reserve a resource if not needed: loops, in the beginning, or end of the code
-        Free a resource after use (using / resurssi.Close() / resurssi.Displose()) / using {}
+        Free a resource after use (using / resource.Close() / resource.Dispose()) / using (var resource = new Resource()) {...}
         Error situations of the external resources are handled in code and closed possible resources: exceptions, status codes
-            Not like this: http task that did not return an exception if the server returned error code, not 200/202. The requester did not receive this code either just a blank document.
-            Way to go: http task returns an exception if returned something else than 200/202/xxx
+            Not like this: HTTP Task that does not return an exception if the server returns an error code, not 200/202. The requester did not receive this code either just a blank document.
+            Way to go: HTTP Task throws an exception by default if returned something else than 200/202/xxx, this could be modified with an option parameter for the Task
 
 FRENDS check list
 
     Task versioned correctly
     Parameters are named and documented
     Secured parameters are marked [PasswordPropertyText(true)]
-    Default parameters make sense; eg. do not use your email
-    One task does one coherent entity (method) Not like CopyFilesFromSFTPAndTransferToGDrive()
-    Task returns data that can be used in the next task
+    Default parameters make sense; e.g. do not use your email
+    One Task does one coherent action (method) Not like CopyFilesFromSFTPAndTransferToGDrive()
+    Task returns data that can be used in the next Task
         Not like a string that includes status code and a message
         Yes: Data structure that has a status code and a message separated
 
  
 # Billing
 
-Creating common tasks are billable work. Do not write this to internal work, but discuss with who gave this task to you.
+Creating common Tasks are billable work. Do not write this to directly to internal work, but discuss with who gave this Task to you.
 
-# Converting FRENDS Community Tasks to .NET Standard or multi-target (.NET Standard 2.0 and Framework)
+# Converting FRENDS Community Tasks to .NET Standard or multi-target (.NET Standard 2.0 and .NET Framework)
 
 ## Why?
 
@@ -233,13 +230,13 @@ To avoid multiple hiccups, you should also convert your project to use new stand
 
 1. Check if the used libraries support .NET Standard.
 2. Check if the Task uses Windows-specific functionality, such as impersonation.
-3. Update the project .csproj file to the new format. The easiest way to accomplish this is to create a new project in Visual Studio targeting .NET Standard and re-add files from the old project. You can use [task template](TODO) to easily create a new project. Keep the project/assembly name the same as before so the Task signature stays the same and is handled as an update instead of a new Task
-4. Setup multi-target by changing the project's .csprojs, if you want to use multi-targeting.
+3. Update the project .csproj file to the new format. The easiest way to accomplish this is to create a new project in Visual Studio targeting .NET Standard and re-add files from the old project. You can use the [Task template](TODO) to easily create a new project. Keep the project/assembly name the same as before so the Task signature stays the same and is handled as an update instead of a new Task
+4. Setup multi-target by changing the project's .csproj-file, if you want to use multi-targeting.
     <pre>&lt;TargetFramework&gt;netstandard2.0&lt;/TargetFramework&gt;</pre>
     to
     <pre>&lt;TargetFrameworks&gt;netstandard2.0;net461&lt;/TargetFrameworks&gt;</pre>
 5. Re-add NuGet package references. Now they use new PackageReferences NuGet package information to the .csproj and delete the .nuspec file.
-7. If you use muli-targeting use preprocessor directives to add target specific functionality, e.g.
+7. If you use multi-targeting use preprocessor directives to add target specific functionality, e.g.
     <pre>&#35;if NET461
     FrameworkOrWindowsSpecificClass.DoSomething();
     &#35;else
@@ -249,7 +246,7 @@ To avoid multiple hiccups, you should also convert your project to use new stand
     <pre>&lt;ItemGroup Condition="'$(TargetFramework)'=='net471'"&gt;
         &lt;Reference Include="System.Net.Http" /&gt;
     &lt;/ItemGroup&gt;</pre>
-9. If using target specific functionality, you should also convert test projects to multi target. Note that unit test can not be run if they target .NET Standard, so they need to targe .NET Core or Framework.
+9. If using target specific functionality, you should also convert test projects to multi-target. Note that unit test can not be run if they target .NET Standard, so they need to target .NET Core or Framework.
 
 Example conversions, using multitargeting:
 
@@ -267,17 +264,17 @@ Still only in Finnish
 
 ## Trivial bug
 
-- Make new branch 
+- Make a new branch 
 - Fix the bug
-- Make test to ensure that bug is fixed. Run all tests.
-- Write description abou change in commit messages and to the ticket. And possible to the releasenotes and documentation. E.g. `FRENDS.File.Write: New Encoding options added to task.`
-- Pack the task and test it also in FRENDS.
-- Make pull request. Ad agree with reviewer that he/she will do the review. Don't just leavethe PR open in github.
-- Fix things that raises in review.
+- Make tests to ensure that bug is fixed. Run all tests.
+- Write description about the change in commit messages and to the ticket. And possible to the release notes and documentation. E.g. `FRENDS.File.Write: New Encoding options added to task.`
+- Pack the Task and test it also in FRENDS.
+- Make a pull request and agree with a reviewer that he/she will do the review. Don't just leave the PR open in GitHub.
+- Fix things that are raised in the review.
 
 ## Breaking Change
 eli taskin rikkova muutos (käytännössä parametrit, yms muuttuu):
-Bugi korjauksen yhteydessä erota task, esim. FRENDS.File.Write omaan Visual Studio Projektiin ja Nugettipakettiin (mutta käytä samaa ratkaisua (solution, sln-tiedosto).
+Bugi-korjauksen yhteydessä erota Task, esim. FRENDS.File.Write omaan Visual Studio Projektiin ja Nugettipakettiin (mutta käytä samaa ratkaisua (solution, sln-tiedosto).
 Nimeä se fiksusti, esim FRENDS.File.Write.V2. Älä välitä vaikka vanhassa projektissa on muitakin taskeja, niitä ei vielä ole ehditty forkkaamaan.
 Muista kopioida myös yksikkötestit ja laittaa ne testaamaan uutta taskia.
 Uuden komponenttiversion Release notes luominen & tiedottaminen. Lyhyt lauseen pari kuvaus, sekä selitys parametreistä ja outputista dokumentaatioon
