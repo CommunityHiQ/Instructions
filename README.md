@@ -18,7 +18,6 @@
   * [Review corresponds](#review-corresponds)
   * [Nuget-feed and auto build](#nuget-feed-and-auto-build)
   * [Review check list](#review-check-list)
-  * [Billing](#billing)
 - [Converting FRENDS Community Tasks to .NET Standard or multi-target (.NET Standard 2.0 and Framework)](#converting-frends-community-tasks-to-net-standard-or-multi-target-net-standard-20-and-framework)
   * [Why?](#why)
   * [Why multi-target? Why not just use .NET Standard?](#why-multi-target-why-not-just-use-net-standard)
@@ -207,10 +206,6 @@ FRENDS check list
         Not like a string that includes status code and a message
         Yes: Data structure that has a status code and a message separated
 
- 
-# Billing
-
-Creating common tasks are billable work. Do not write this to internal work, but discuss with who gave this task to you.
 
 # Converting FRENDS Community Tasks to .NET Standard or multi-target (.NET Standard 2.0 and Framework)
 
