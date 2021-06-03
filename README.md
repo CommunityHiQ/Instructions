@@ -48,6 +48,10 @@ Repos can be created here https://github.com/CommunityHiQ. If you cannot create 
 
 Input and output classes of the task are located to their own files.
 
+## Version numbering
+
+Version numbers are in SemVer format, which means that three numbers are used and any additional numbers are ignored, so 1.0.1 is the same as 1.0.1.14. However, the use of these numbers differs from SemVer. Generally speaking, development should start from version number 0.1.0 and the first version that is merged to master should be version 1.0.0. During development the developer can increase the third number as they wish. When the pull request is accepted and is merged to master, the reviewer should increment the second number by one and set the third number to zero - unless the change is a breaking one, which means that updating the frends task (likely) needs to be done manually. This can happen if the return properies or task parameters change, of if the task changed to a .NET Standard version. In this case the reviewer incrementes the first version number and sets the two other to zero.
+
 ## Pattern for naming:
 
 Task name = What the task does? (eg. DownloadFile OR CreateZipArchive) 
@@ -284,13 +288,13 @@ Noudata muuten ylempänä annettuja peer review, pull request, ilmoitus ja yksik
 
 Uudet Taskit lisätään samalla kaavalla Common version hallintaan, kuin nyt sovittu taskien purkaminen omiin Visual Studio projekteihin, noudattaen yllä kuvattuja periaatteita. Muista ottaa uusi branchi ja tehdä yksikkötestit ja dokumentaatio.
 
-apuprojektin tai apufunktionpäivitys
+### Apuprojektin tai apufunktionpäivitys
 
-Päivitä apu projekti Breaking Change ohjeiden mukaan ja sitä käyttävä taskit bugi korjaus ohjeiden mukaan.
+Päivitä apuprojekti Breaking Change ohjeiden mukaan ja sitä käyttävä taskit bugikorjausohjeiden mukaan.
 
-Tausta kirjaston päivitys
+### Taustakirjaston päivitys
 
-Mikäli olet 100 % varma, että tausta kirjastoa ei käytetä missään muussa taskissa, korjaa taski bugi korjaus ohjeiden mukaan. Muussa tapauksessa kysy apua review vastaavilta ja tai r&d:ltä. Ongelmia syntyy jos samassa prosessissa olevat taskit yrittävät käyttää eri versioita samasta dll:stä.
+Mikäli olet 100 % varma, että taustakirjastoa ei käytetä missään muussa taskissa, korjaa taski bugikorjausohjeiden mukaan. Muussa tapauksessa kysy apua review vastaavilta ja tai r&d:ltä. Ongelmia syntyy jos samassa prosessissa olevat taskit yrittävät käyttää eri versioita samasta dll:stä.
 	
 	
 ## Asiakkaalta löytyy hyvä taski,
@@ -298,20 +302,16 @@ eli mitä jos asiakkaalla on super hyvä taski, mutta sitä ei ole tarpeen muoka
         Tee uusi branch commoneista kopioi koodi asiakkaan reposta, lisää koodi commoneihin ja kirjoita pikana committiin mistä on kyse. Älä säädä mitään turhaa visual studion projektien tai ratakisujen (solution) kanssa . Tähän pitäisi mennä aikaa 5 min, joten sen voi leipoa vaikka kuuluisten kiky tuntien sisään. Jos taskista on oikeasti hyötyä jollekin muulle, se löytyy commonien branchistä ja sitten kun joku toinen asiakas haluaa taskin itselleen kaikki tarvittavat muutokset taskiin ja dokumentointi yms. voidaan laskuttaa.
 
 
-Versionumerointi
+## Versionumerointi
 
-Versiointi jakautuu 3 numeroon
-    Taskit numeroidaan kolmella numerolla ja ensimmäinen masteriin viety versio on lähtökohtaisesti 1.0.0 ja devaamien aloitetaan numerosta 0.1.0
-    Devaaja päivittää viimeistä numera miten haluaa
-    Kun pull request hyväksytään ja mergetään masteriin hyväksyjä nostaa keskimmäistä numeroa yhdellä ja nollaa viimeisen.
-    Paitsi jos kyseessä on breaking change, eli taskia joudutaan (mahdollisesti) päivittämään käsin FRENDSissä (esim. taskin return tai parametrit muuttuvat, tai taski muutetaan .Net standardiksi) pull requestin hyväksyjä inkrementoi ensimmäistä versionumeroa yhdellä ja nollaa muut.
+Taskit numeroidaan kolmella numerolla ja ensimmäinen masteriin viety versio on lähtökohtaisesti 1.0.0 ja devaamien aloitetaan numerosta 0.1.0. Devaaja päivittää viimeistä numera miten haluaa. Kun pull request hyväksytään ja mergetään masteriin hyväksyjä nostaa keskimmäistä numeroa yhdellä ja nollaa viimeisen - paitsi jos kyseessä on breaking change, eli taskia joudutaan (mahdollisesti) päivittämään käsin FRENDSissä (esim. taskin return tai parametrit muuttuvat, tai taski muutetaan .Net standardiksi). Pull requestin hyväksyjä inkrementoi ensimmäistä versionumeroa yhdellä ja nollaa muut.
     
 Sellaisia päivityksiä jotka hävittävät paramaterit FRENDSin editorissa ei pitäisi tehdä, joten sille ei ole numerointia.
 
 ## FAQ:
-Miksi pull requestin hyväksyjä nostaa keskimmäistä numeroa? V: Koska tällöin PR:ää voi päivittää vielä jälkikäteen.
-Mitä jos devaaja päivittääkin keskimmäitä numeroa? V: Ei se niin vakavaa ole.
-Miksi community taskeissa ei käytetä puhdasta Semantic Versioning https://semver.org/ käytäntöä V: Käytännössä community taskeja devataan siten että niistä tehdään useita nugettipaketteja FRENDSiin jolloin viimeistä numeroa joutuu päivittämään mahdollisesti useita kertoja. Tämän vuoksi on kätevämpää päivittää keskimmäistä numeroa myös bugikorjauksien yhteydessä, sillä tällöin kukaan ei ihmettele miksi versiosta 1.3.4 siirrytään versioon 1.3.17, lisäksi päivittämällä keskimmäistä numeroa FRENDS jossa kehitystyö on tehty hyväksyy uudne paketin feedistä.
+- Miksi pull requestin hyväksyjä nostaa keskimmäistä numeroa? V: Koska tällöin PR:ää voi päivittää vielä jälkikäteen.
+- Mitä jos devaaja päivittääkin keskimmäitä numeroa? V: Ei se niin vakavaa ole.
+- Miksi community taskeissa ei käytetä puhdasta Semantic Versioning https://semver.org/ käytäntöä? V: Käytännössä community taskeja devataan siten että niistä tehdään useita nugettipaketteja FRENDSiin jolloin viimeistä numeroa joutuu päivittämään mahdollisesti useita kertoja. Tämän vuoksi on kätevämpää päivittää keskimmäistä numeroa myös bugikorjauksien yhteydessä, sillä tällöin kukaan ei ihmettele miksi versiosta 1.3.4 siirrytään versioon 1.3.17, lisäksi päivittämällä keskimmäistä numeroa FRENDS jossa kehitystyö on tehty hyväksyy uudne paketin feedistä.
 
 
 ##  Frends.Tasks.Attributes referenssin poisto 
