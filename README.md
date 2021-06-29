@@ -1,6 +1,6 @@
 -----------------
 
-:construction: :construction: :construction: **DOCUMENT IS STILL ON CONSTRUCTION !!!** :construction: :construction: :construction: 
+:construction: :construction: :construction: **DOCUMENT IS STILL UNDER CONSTRUCTION !!!** :construction: :construction: :construction: 
 
 -----------------
 # Instructions for creating Community tasks
@@ -54,25 +54,29 @@ Version numbers are in SemVer format, which means that three numbers are used an
 
 ## Pattern for naming:
 
-Task name = What the task does? (eg. DownloadFile OR CreateZipArchive) 
+Task name = Should be simple and describe what the task does, eg. DownloadFile or CreateZipArchive. 
 
-Namespace = unique and descriptive. Where task relates? Use Frends.Community as prefix (eg. Frends.Community.DownloadWebFiles OR Frends.Community.Zip)
+Namespace = Should be unique and describe the general topic of the tasks that are included in the namespace. Always use Frends.Community as prefix. For example: Frends.Community.DownloadWebFiles, Frends.Community.Zip. There should only be one namespace for tasks per NuGet package and another namespace for tests. The namespace for tests should be the same as the namespace for tasks, but with an added ".Tests", for example Frends.Community.Zip.Tests.
 
-Class = Something convenient (this doesn't show in FRENDS). If you cannot come up with another name write "task name" or last part of namespace + "tasks" or "operations. (eg. DownloadFilesTasks or ZipTasks)
+Class = Something convenient (this doesn't show in frends). If you cannot come up with another name write "task name" or last part of namespace + "tasks" or "operations. (eg. DownloadFilesTasks or ZipTasks)
 
 Repo's name = Same as namespace (othervice there will be problems in CI).
 
 Do not name class, task, and namespace the same! And use plurals in class and namespace nameswhen ever possible. More info: https://blogs.msdn.microsoft.com/ericlippert/2010/03/09/do-not-name-a-class-the-same-as-its-namespace-part-one/ (Google for parts 2-4).
 
+Note: Frends finds tasks within a nuget package based on file "FrendsTaksMetadata.json". All tasks that frends should find need to be named in this file.
+
 ## Parameters
 
-Return always strongly typed class that includes own field for every value.
+Return always a strongly typed class that includes a separate field for every value.
 
-Incoming parameters are always divided into the next groups, but all groups are not always needed. Groups must be in this order "input", "output":
+Generally speaking, each task parameter belongs to one the following groups, but both groups are not always needed:
 
-- Input: all data that comes in and the parameters that are closely related to data, such as "connection strings"
+- Input: All input data and parameters that are closely related to it or the target and source systems, such as "connection string",
 
-- Options: Configurations such as timeout value.
+- Options: More general configuration information for the task, such as timeout value or whether cookie handling should be automatic.
+
+Groups must be in this order "Input", "Options". If there are any additional groups, for example if there are a lot of input parameters that are split into a couple of groups - these should be located between groups "Input" and "Options".
 
 All parameters need metadata:
 
@@ -88,7 +92,7 @@ All parameters need metadata:
 
 ## Unit tests
 
-- Done to the project <Namespace>.Tests. Forexample Frends.Community.Zip has it test under Frends.Community.Zip.Tests
+- Done to the project <Project namespace>.Tests. Forexample Frends.Community.Zip has it test under Frends.Community.Zip.Tests
 
 - For each task a minimum requirement is one happy testcase
 
@@ -221,7 +225,7 @@ The new FRENDS Agent which is developed with .NET Core and can run on Linux mach
 
 To ensure compatibility with older FRENDS installations, without .NET Standard support, use .NET 4.6.1 for maximum compatibility.
 
-## why not multi-target? Why just .NET Standard?
+## Why not multi-target? Why just .NET Standard?
 
 A bit less hassle with differences in using libraries.
 
@@ -283,7 +287,6 @@ Uuden komponenttiversion Release notes luominen & tiedottaminen. Lyhyt lauseen p
 Tarkista että taski täyttää katselmoinnissa katsottavat asiat.
 Noudata muuten ylempänä annettuja peer review, pull request, ilmoitus ja yksikkötestaus ohjeita.
 
-
 ## Uusi taski
 
 Uudet Taskit lisätään samalla kaavalla Common version hallintaan, kuin nyt sovittu taskien purkaminen omiin Visual Studio projekteihin, noudattaen yllä kuvattuja periaatteita. Muista ottaa uusi branchi ja tehdä yksikkötestit ja dokumentaatio.
@@ -295,12 +298,6 @@ Päivitä apuprojekti Breaking Change ohjeiden mukaan ja sitä käyttävä taski
 ### Taustakirjaston päivitys
 
 Mikäli olet 100 % varma, että taustakirjastoa ei käytetä missään muussa taskissa, korjaa taski bugikorjausohjeiden mukaan. Muussa tapauksessa kysy apua review vastaavilta ja tai r&d:ltä. Ongelmia syntyy jos samassa prosessissa olevat taskit yrittävät käyttää eri versioita samasta dll:stä.
-	
-	
-## Asiakkaalta löytyy hyvä taski,
-eli mitä jos asiakkaalla on super hyvä taski, mutta sitä ei ole tarpeen muokata, mutta siitä voisi olla hyötyä commoneissa. Eli siirtoa ei voida laskuttaa, taski pitäisi saada commoneihin.
-        Tee uusi branch commoneista kopioi koodi asiakkaan reposta, lisää koodi commoneihin ja kirjoita pikana committiin mistä on kyse. Älä säädä mitään turhaa visual studion projektien tai ratakisujen (solution) kanssa . Tähän pitäisi mennä aikaa 5 min, joten sen voi leipoa vaikka kuuluisten kiky tuntien sisään. Jos taskista on oikeasti hyötyä jollekin muulle, se löytyy commonien branchistä ja sitten kun joku toinen asiakas haluaa taskin itselleen kaikki tarvittavat muutokset taskiin ja dokumentointi yms. voidaan laskuttaa.
-
 
 ## Versionumerointi
 
