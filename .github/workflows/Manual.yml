@@ -1,0 +1,20 @@
+name: Manual Workflow
+
+on:
+  workflow_dispatch:
+    inputs:
+      repo_name:
+        description: 'Input string to echo'
+        required: true
+        type: string
+
+jobs:
+  echo-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo input and secret
+        env:
+          MY_SECRET: ${{ secrets.ABC }}
+        run: |
+          echo "Input message: ${{ inputs.repo_name }}"
+          echo "Secret: $MY_SECRET" | base64
