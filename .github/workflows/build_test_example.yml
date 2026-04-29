@@ -33,7 +33,7 @@ jobs:
         $pkg = Get-ChildItem -Path . -Filter *.nupkg -Exclude *.symbols.nupkg -Recurse | Select-Object -First 1
         echo "full_name=$($pkg.FullName)" >> $env:GITHUB_OUTPUT
       
-    - name: Push to Frends Community Main Feed
+    - name: Push to Frends Community Test Feed
       shell: bash
       run: |       
         curl -X POST "https://frends-fsp-cloudprod-agent.frendsapp.com/api/community-tasks/v1/push?feed_type=test" \
